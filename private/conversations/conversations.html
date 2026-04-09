@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conversations - ADMApp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="/css/conversations.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="icon" href="../logos/ADMAppSimpleSquare.png" />
+</head>
+<body>
+  <!-- Top Navbar -->
+  <nav class="navbar is-light px-5 py-3" role="navigation">
+    <div class="navbar-left-buttons">
+      <button class="button is-white" id="toggle-sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="navbar-logo-centered">
+      <a href="/">
+        <img src="/logos/ADMAppComplesHorizontal.png" alt="ADMApp Logo" class="navbar-logo-img">
+      </a>
+    </div>
+
+    <div class="navbar-end is-align-items-center">
+      <div class="navbar-item is-flex is-align-items-center gap-4">
+        <img id="profile-image" class="profile-image mr-2" src="" alt="Profile" />
+        <span class="username has-text-weight-semibold mr-4" id="username-display">Username</span>
+        <button id="toggle-theme" class="button is-dark is-light"><i class="fas fa-moon"></i></button>
+        <a href="/settings/settings.html" onclick="sessionStorage.setItem('lastVisitedFrom', 'conversations')" class="button is-primary is-light">Settings</a>
+        <a href="/logout" class="button is-danger is-light">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Layout -->
+  <div id="main-content">
+    <!-- Sidebar -->
+    <aside id="nav-sidebar" class="is-flex is-flex-direction-column">
+      <div class="menu p-4">
+        <p class="menu-label">Navigation</p>
+        <ul class="menu-list">
+          <li><a href="/home/home.html"><i class="fas fa-house mr-2"></i>Home</a></li>
+          <li><a href="/friends/friends.html"><i class="fas fa-user-group mr-2"></i>Friends</a></li>
+          <li><a href="/globalchat/globalchat.html"><i class="fas fa-globe mr-2"></i>Global Chat</a></li>
+          <li><a class="is-active" href="/conversations/conversations.html"><i class="fas fa-comments mr-2"></i>Conversations</a></li>
+          <li><a href="/groupchats/groupchats.html"><i class="fas fa-people-group mr-2"></i>Group Chats</a></li>
+          <li><a href="/settings/settings.html" onclick="sessionStorage.setItem('lastVisitedFrom', 'conversations')"><i class="fas fa-gear mr-2"></i>Settings</a></li>
+        </ul>
+      </div>
+
+      <div class="p-4" id="friend-list-container">
+        <p class="menu-label">Friends</p>
+        <ul id="friend-list" class="menu-list"></ul>
+      </div>
+    </aside>
+
+    <!-- Chat Area -->
+    <main class="chat-area">
+      <section id="chat-partner-header" class="px-4 py-2 has-background-white-ter" style="border-bottom: 1px solid #dbdbdb; display: none; min-height: 55px; flex-shrink: 0;">
+        <div class="is-flex is-align-items-center">
+          <figure class="image is-32x32 mr-3" style="background-color: #eee; border-radius: 50%;" id="chat-partner-pfp-container">
+             <span class="icon is-small"><i class="fas fa-user"></i></span>
+          </figure>
+          <span id="chat-partner-name" class="has-text-weight-semibold is-size-5"></span>
+        </div>
+      </section>
+      <section id="chat-window" class="messages flex-grow-1 px-4 py-3" style="overflow-y: auto;">
+        <div id="typing-indicator" class="typing-indicator is-hidden mb-3"></div>
+        <div class="placeholder-container" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+          <!-- Placeholder will be set by JS -->
+        </div>
+      </section>
+
+      <section class="message-box">
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <input id="message-input" class="input is-rounded" type="text" placeholder="Type a message..." maxlength="500">
+          </div>
+          <div class="control">
+            <button class="button is-info is-rounded" id="send-btn">Send</button>
+          </div>
+        </div>
+        <p id="char-count" class="help is-size-7 has-text-grey">0/500</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/conversations/conversations.js"></script>
+  <script>
+      function updateProfileInfo(username) {
+      document.getElementById("username-display").textContent = username;
+
+      const imgEl = document.getElementById("profile-image");
+      imgEl.src = `/Uploads/pfps/${username}.png`;
+      imgEl.alt = username;
+      imgEl.onerror = () => {
+        imgEl.src = "/logos/defaultPfp.png"; // fallback image
+      };
+    }
+
+    // Apply saved theme on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        document.querySelector("#toggle-theme i").classList.replace("fa-moon", "fa-sun");
+      }
+    });
+  </script>
+</body>
+</html>

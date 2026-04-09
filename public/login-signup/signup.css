@@ -1,0 +1,41 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+}
+
+.form-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    margin-bottom: 24px;
+    font-size: 28px;
+    text-align: center;
+    color: #1a1a1a;
+}
+
+.existing {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.existing a {
+    font-size: 14px;
+    color: #3273dc;
+    text-decoration: none;
+}
+
+#bulmaError {
+    display: none;
+}
+
+#togglePassword {
+    z-index: 2;
+    padding: 0 10px;
+}
+

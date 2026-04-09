@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Global Chat - ADMApp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="/css/globalchat.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="icon" href="../logos/ADMAppSimpleSquare.png" />
+</head>
+<body>
+  <!-- Top Navbar -->
+  <nav class="navbar is-light px-5 py-3" role="navigation">
+    <div class="navbar-left-buttons">
+      <button class="button is-white" id="toggle-sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="navbar-logo-centered">
+      <a href="/">
+        <img src="/logos/ADMAppComplesHorizontal.png" alt="ADMApp Logo" class="navbar-logo-img">
+      </a>
+    </div>
+
+    <div class="navbar-end is-align-items-center">
+      <div class="navbar-item is-flex is-align-items-center gap-4">
+        <img id="profile-image" class="profile-image mr-2" src="" alt="Profile" />
+        <span class="username has-text-weight-semibold mr-4" id="username-display">Username</span>
+        <button id="toggle-theme" class="button"><i id="theme-icon" class="fas fa-moon"></i></button>
+        <a href="/settings/settings.html" onclick="sessionStorage.setItem('lastVisitedFrom', 'globalchat')" class="button is-primary is-light">Settings</a>
+        <a href="/logout" class="button is-danger is-light">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout-wrapper is-flex">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar-menu p-4">
+      <div class="menu">
+        <p class="menu-label">Navigation</p>
+        <ul class="menu-list">
+          <li><a href="/home/home.html"><i class="fas fa-house mr-2"></i>Home</a></li>
+          <li><a href="/friends/friends.html"><i class="fas fa-user-group mr-2"></i>Friends</a></li>
+          <li><a class="is-active" href="/globalchat/globalchat.html"><i class="fas fa-globe mr-2"></i>Global Chat</a></li>
+          <li><a href="/conversations/conversations.html"><i class="fas fa-comments mr-2"></i>Conversations</a></li>
+          <li><a href="/groupchats/groupchats.html"><i class="fas fa-people-group mr-2"></i>Group Chats</a></li>
+          <li><a href="/settings/settings.html" onclick="sessionStorage.setItem('lastVisitedFrom', 'conversations')"><i class="fas fa-gear mr-2"></i>Settings</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Chat Area -->
+    <main class="chat-area column p-4">
+      <div class="users-section">
+        <p class="menu-label">Live Messages</p>
+        <ul id="user-list" class="menu-list mb-4"></ul>
+      </div>
+
+      <section id="chat-window" class="messages mb-5"></section>
+      <div id="typing-indicator" class="typing-indicator is-hidden mb-3">Someone is typing...</div>
+
+      <section class="message-box">
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <input id="message-input" class="input is-rounded" type="text" placeholder="Type a message..." maxlength="500">
+          </div>
+          <div class="control">
+            <button class="button is-info is-rounded" id="send-btn">Send</button>
+          </div>
+        </div>
+        <p id="char-count" class="help is-size-7 has-text-grey">0/500</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/globalchat/globalchat.js"></script>
+  <script>
+    fetch("/api/session")
+      .then(res => res.json())
+      .then(data => {
+        const username = data.username || "Guest";
+        document.getElementById("username-display").textContent = username;
+        const imgEl = document.getElementById("profile-image");
+        imgEl.src = `/uploads/pfps/${username}.png`;
+        imgEl.alt = username;
+      })
+      .catch(() => {
+        document.getElementById("username-display").textContent = "Guest";
+      });
+
+    document.getElementById('toggle-sidebar').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('is-hidden');
+    });
+
+    const toggleBtn = document.getElementById("toggle-theme");
+    const icon = document.getElementById("theme-icon");
+
+    function applyTheme(theme) {
+      document.body.classList.remove("light-mode", "dark-mode");
+      document.body.classList.add(`${theme}-mode`);
+      icon.className = theme === "dark" ? "fas fa-sun" : "fas fa-moon";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      applyTheme(savedTheme);
+    });
+
+    toggleBtn.addEventListener("click", () => {
+      const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", newTheme);
+      applyTheme(newTheme);
+    });
+  </script>
+</body>
+</html>

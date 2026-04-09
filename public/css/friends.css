@@ -1,0 +1,338 @@
+/* Base layout */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f7fb;
+  overflow: hidden;
+}
+
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #e4e4e4;
+}
+
+/* Layout wrapper for main content */
+.layout-wrapper {
+  display: flex;
+  height: calc(100vh - 64px);
+}
+
+/* Sidebar menu */
+#sidebar {
+  width: 220px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+#sidebar.is-hidden {
+  transform: translateX(-100%);
+}
+
+body.dark-mode #sidebar {
+  background-color: #2a2a2a;
+  border-right: 1px solid #444;
+}
+
+.menu-label {
+  font-size: 0.85rem;
+  color: #7a7a7a;
+  text-transform: uppercase;
+  margin: 0.5rem 0;
+}
+
+body.dark-mode .menu-label {
+  color: #aaa;
+}
+
+.menu-list a {
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: block;
+  color: #1c1c1e;
+  transition: background-color 0.2s;
+}
+
+.menu-list a:hover {
+  background-color: #f0f0f0;
+}
+
+.menu-list a.is-active {
+  background-color: #e0f2fe;
+  color: #007acc;
+  font-weight: bold;
+}
+
+body.dark-mode .menu-list a {
+  color: #e4e4e4;
+}
+
+body.dark-mode .menu-list a:hover {
+  background-color: #3a3a3a;
+}
+
+body.dark-mode .menu-list a.is-active {
+  background-color: #005f99;
+  color: #fff;
+}
+
+/* Navbar */
+.navbar {
+  position: relative;
+  z-index: 20;
+}
+
+body.dark-mode .navbar {
+  background-color: #2c2c2c;
+}
+
+.navbar-logo-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.navbar-logo-img {
+  height: 34px;
+  max-width: 180px;
+  object-fit: contain;
+  opacity: 0.95;
+}
+
+.navbar-left-buttons {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.navbar-left-buttons .button:hover {
+  background-color: #f5f5f5;
+  border-color: #dbdbdb;
+}
+
+body.dark-mode .navbar-left-buttons .button:hover {
+  background-color: #444;
+  border-color: #555;
+}
+
+/* Profile Picture */
+#profile-image {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: inline-block !important;
+  aspect-ratio: 1 / 1 !important;
+  border: 2px solid #e2e2e2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  background-color: #f0f0f0;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.navbar-item #profile-image {
+  max-height: none !important;
+}
+
+body.dark-mode #profile-image {
+  border-color: #444;
+  background-color: #333;
+}
+
+/* Username */
+.username {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1c1c1e;
+}
+
+body.dark-mode .username {
+  color: #e4e4e4;
+}
+
+/* Gap spacing */
+.gap-4 > * + * {
+  margin-left: 1.5rem;
+}
+
+/* Buttons */
+.button.is-danger.is-light {
+  font-weight: 600;
+  color: #d70015;
+  background-color: #fef2f2;
+}
+
+.button.is-danger.is-light:hover {
+  background-color: #fde7e7;
+}
+
+.button.is-primary.is-light {
+  background-color: #ecfdf5;
+  color: #065f46;
+  font-weight: 500;
+}
+
+.button.is-primary.is-light:hover {
+  background-color: #d1fae5;
+}
+
+body.dark-mode .button.is-danger.is-light {
+  background-color: #5f1a1a;
+  color: #ffb3b3;
+}
+
+body.dark-mode .button.is-danger.is-light:hover {
+  background-color: #992222;
+}
+
+body.dark-mode .button.is-primary.is-light {
+  background-color: #14532d;
+  color: #a7f3d0;
+}
+
+body.dark-mode .button.is-primary.is-light:hover {
+  background-color: #166534;
+}
+
+#toggle-theme {
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+#toggle-theme:hover {
+  background-color: #21212176;
+}
+
+body.dark-mode #toggle-theme {
+  background-color: #ffd93b;
+  color: #000;
+  border-color: #f4c430;
+}
+
+body.dark-mode #toggle-theme:hover {
+  background-color: #f7c400;
+}
+
+/* Friend request box */
+.friend-request-section {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto 1.5rem auto;
+  background-color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+body.dark-mode .friend-request-section {
+  background-color: #353535;
+}
+
+/* Sections */
+.pending-requests-section,
+.friend-list-section {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+#pending-requests, #friend-list {
+  background-color: #fff;
+  color: #1c1c1e;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+body.dark-mode #pending-requests,
+body.dark-mode #friend-list {
+  background-color: #353535;
+  color: #e4e4e4;
+}
+
+/* Pending item styling for dark mode */
+body.dark-mode .pending-item {
+  background-color: #353535;
+  color: #e4e4e4;
+}
+
+/* Friends layout */
+.friend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: inherit;
+  border-radius: 8px;
+}
+
+/* Friend profile picture */
+.friend-pfp {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  background-color: #fafafa;
+  margin-right: 12px;
+  aspect-ratio: 1 / 1;
+}
+
+body.dark-mode .friend-pfp {
+  border-color: #555;
+  background-color: #2a2a2a;
+}
+
+/* Buttons small */
+.accept-request, .reject-request {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.reject-request {
+  background-color: red;
+  color: white;
+}
+
+.reject-request:hover {
+  background-color: darkred;
+}
+
+.accept-request:hover, .reject-request:hover {
+  opacity: 0.8;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Dark mode section headers */
+body.dark-mode .pending-requests-section h2,
+body.dark-mode .friend-list-section h2 {
+  color: #ffffff;
+}

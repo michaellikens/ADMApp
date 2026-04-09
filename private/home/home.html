@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome - ADMApp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="/css/home.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="icon" href="../logos/ADMAppSimpleSquare.png" />
+</head>
+<body>
+  <!-- Top Navbar -->
+  <nav class="navbar is-light px-5 py-3" role="navigation">
+    <div class="navbar-left-buttons">
+      <button class="button is-white" id="toggle-sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="navbar-logo-centered">
+      <a href="/">
+        <img src="/logos/ADMAppComplesHorizontal.png" alt="ADMApp Logo" class="navbar-logo-img">
+      </a>
+    </div>
+
+    <div class="navbar-end is-align-items-center">
+      <div class="navbar-item is-flex is-align-items-center gap-4">
+        <img id="profile-image" src="" alt="Profile Picture" class="mr-2" />
+        <span class="username has-text-weight-semibold mr-4" id="username-display">Username</span>
+        <button id="toggle-theme" class="button"><i id="theme-icon" class="fas fa-moon"></i></button>
+        <a href="/settings/settings.html" onclick="sessionStorage.setItem('lastVisitedFrom', 'home')" class="button is-primary is-light">Settings</a>
+        <a href="/logout" class="button is-danger is-light">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Layout Wrapper -->
+  <div class="layout-wrapper is-flex">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar-menu p-4">
+      <div class="menu">
+        <p class="menu-label">Navigation</p>
+        <ul class="menu-list">
+          <li><a class="is-active" href="/home/home.html"><i class="fas fa-house mr-2"></i>Home</a></li>
+          <li><a href="/friends/friends.html"><i class="fas fa-user-group mr-2"></i>Friends</a></li>
+          <li><a href="/globalchat/globalchat.html"><i class="fas fa-globe mr-2"></i>Global Chat</a></li>
+          <li><a href="/conversations/coversations.html"><i class="fas fa-comments mr-2"></i>Conversations</a></li>
+          <li><a href="/groupchats/groupchats.html"><i class="fas fa-people-group mr-2"></i>Group Chats</a></li>
+          <li><a href="/settings/settings.html" onclick="sessionStorage.setItem('lastVisitedFrom', 'home')"><i class="fas fa-gear mr-2"></i>Settings</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="column is-flex is-flex-direction-column is-align-items-center is-justify-content-center p-6">
+      <div class="has-text-centered mb-5">
+        <img src="/logos/ADMAppSimpleHorizontal.png" alt="ADMApp Logo" class="adm-logo" />
+        <p class="subtitle mt-2 dark-text">Choose where you want to go</p>
+      </div>
+      <div class="buttons is-centered">
+        <a href="/globalchat/globalchat.html" class="button is-link is-medium is-rounded">
+          <i class="fas fa-comments mr-2"></i>Global Chat
+        </a>
+        <a href="/friends/friends.html" class="button is-info is-medium is-rounded">
+          <i class="fas fa-user-group mr-2"></i>Friends
+        </a>
+        <a href="/groupchats/groupchats.html" class="button is-success is-medium is-rounded">
+          <i class="fas fa-people-group mr-2"></i>Group Chats
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    fetch("/api/session")
+      .then(res => res.json())
+      .then(data => {
+        const username = data.username || "Guest";
+        const pfpPath = data.profilePicture || "/default.png";
+        document.getElementById("username-display").textContent = username;
+        document.getElementById("profile-image").src = pfpPath;
+      })
+      .catch(() => {
+        document.getElementById("username-display").textContent = "Guest";
+        document.getElementById("profile-image").src = "/default.png";
+      });
+
+    document.getElementById('toggle-sidebar').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('is-hidden');
+    });
+
+    const toggleBtn = document.getElementById("toggle-theme");
+    const icon = document.getElementById("theme-icon");
+        function applyTheme(theme) {
+      document.body.classList.remove("light-mode", "dark-mode");
+      toggleBtn.classList.remove("sun-theme");
+
+      if (theme === "dark") {
+        document.body.classList.add("dark-mode");
+        icon.className = "fas fa-sun";
+      } else {
+        document.body.classList.add("light-mode");
+        icon.className = "fas fa-moon";
+        toggleBtn.classList.add("sun-theme");
+      }
+    }
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      applyTheme(savedTheme);
+    });
+
+    toggleBtn.addEventListener("click", () => {
+      const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", newTheme);
+      applyTheme(newTheme);
+    });
+  </script>
+</body>
+</html>

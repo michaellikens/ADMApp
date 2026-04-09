@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Sign up to ADMApp</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <link rel="stylesheet" href="../login-signup/signup.css" />
+    <link rel="icon" type="image/x-icon" href="../logos/ADMAppSimpleSquare.png" />
+</head>
+<body>
+    <form id="signupForm">
+        <div class="form-container">
+            <h1 class="title is-3 has-text-weight-semibold">Create your account</h1>
+
+            <div id="bulmaError" class="notification is-danger is-light">
+                Signup failed. Username may be taken or invalid. Please try again.
+            </div>
+
+            <div class="field">
+                <label class="label" for="username">Username</label>
+                <div class="control has-icons-right">
+                    <input class="input" id="username" type="text" name="username" maxlength="32" required pattern="[a-zA-Z0-9]+" title="Username can only contain letters and numbers" />
+                    <span class="icon is-small is-right">
+                        <i class="" id="username-icon"></i>
+                    </span>
+                </div>
+                <p class="help" id="username-help"></p>
+            </div>
+
+            <div class="field">
+                <label class="label" for="password">Password</label>
+                <div class="control has-icons-right">
+                    <input class="input" id="password" type="password" name="password" required minlength="8" />
+                    <button type="button" class="button is-small is-light" id="togglePassword" style="position: absolute; right: 0.5rem; top: 0.35rem;">
+                        Show
+                    </button>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button type="submit" id="signupBtn" class="button is-link is-fullwidth">Sign up</button>
+                </div>
+            </div>
+
+            <div class="existing">
+                <a href="../login-signup/login.html">Already have an account?</a>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        $("#signupForm").on("submit", function (e) {
+            e.preventDefault();
+
+            const username = $("#username").val().trim().toLowerCase();
+            const password = $("#password").val();
+            const $btn = $("#signupBtn");
+
+            // Validate username for alphanumeric characters
+            if (!/^[a-zA-Z0-9]+$/.test(username)) {
+                $("#bulmaError").text("Username can only contain letters and numbers.").fadeIn();
+                $btn.removeClass("is-link is-loading").addClass("is-danger").text("Try Again");
+                return;
+            }
+
+            // Reset and show loading
+            $btn.removeClass("is-danger is-success").addClass("is-link is-loading").text("Creating...");
+
+            $.ajax({
+                url: "/users",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ name: username, password: password }),
+                success: function (response) {
+                    if (response === "User created successfully") {
+                        $btn.removeClass("is-link is-loading").addClass("is-success").text("Success!");
+                        setTimeout(() => {
+                            window.location.href = "../login-signup/login.html";
+                        }, 700);
+                    } else {
+                        showError();
+                    }
+                },
+                error: function () {
+                    showError();
+                }
+            });
+
+            function showError() {
+                $("#bulmaError").fadeIn();
+                $btn.removeClass("is-link is-loading").addClass("is-danger").text("Try Again");
+            }
+        });
+
+        $("#username, #password").on("input", function () {
+            $("#bulmaError").fadeOut();
+            $("#signupBtn").removeClass("is-danger is-success").addClass("is-link").text("Sign up");
+        });
+
+        $("#togglePassword").on("click", function () {
+            const $input = $("#password");
+            const isPassword = $input.attr("type") === "password";
+            $input.attr("type", isPassword ? "text" : "password");
+            $(this).text(isPassword ? "Hide" : "Show");
+        });
+
+        let usernameCheckTimeout;
+
+        function resetUsernameFeedback() {
+            const $usernameInput = $('#username');
+            const $usernameHelp = $('#username-help');
+            const $usernameIcon = $('#username-icon');
+
+            $usernameInput.removeClass('is-success is-danger');
+            $usernameHelp.text('').removeClass('is-success is-danger');
+            $usernameIcon.removeClass('fa-check fa-exclamation-triangle');
+        }
+
+        $('#username').on('input', function() {
+            const $usernameInput = $(this);
+            const $usernameHelp = $('#username-help');
+            const $usernameIcon = $('#username-icon');
+            const username = $usernameInput.val().trim().toLowerCase();
+
+            resetUsernameFeedback();
+            clearTimeout(usernameCheckTimeout);
+
+            if (username === '') {
+                return;
+            }
+
+            // Check if username is only text / numbers 
+            if (!/^[a-zA-Z0-9]+$/.test(username)) {
+                $usernameInput.removeClass('is-success').addClass('is-danger');
+                $usernameHelp.text('Username can only contain letters and numbers').removeClass('is-success').addClass('is-danger');
+                $usernameIcon.removeClass('fa-check').addClass('fas fa-exclamation-triangle');
+                return;
+            }
+
+            usernameCheckTimeout = setTimeout(() => {
+                $.get(`/users/check-availability/${encodeURIComponent(username)}`)
+                    .done(function(response) {
+                        if (response.available) {
+                            $usernameInput.removeClass('is-danger').addClass('is-success');
+                            $usernameHelp.text(response.message || 'Username is available').removeClass('is-danger').addClass('is-success');
+                            $usernameIcon.removeClass('fa-exclamation-triangle').addClass('fas fa-check');
+                        } else {
+                            $usernameInput.removeClass('is-success').addClass('is-danger');
+                            $usernameHelp.text(response.message || 'Username is already taken').removeClass('is-success').addClass('is-danger');
+                            $usernameIcon.removeClass('fa-check').addClass('fas fa-exclamation-triangle');
+                        }
+                    })
+                    .fail(function() {
+                        console.error("Error checking username availability.");
+                        $usernameHelp.text('Could not check username.').removeClass('is-success').addClass('is-warning');
+                    });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

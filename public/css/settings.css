@@ -1,0 +1,352 @@
+/* Base styling */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f7fb;
+  overflow-y: auto;
+}
+
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #e4e4e4;
+}
+
+/* Profile Picture */
+#profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: inline-block;
+  aspect-ratio: 1 / 1;
+  border: 2px solid #e2e2e2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  background-color: #f0f0f0;
+  flex-shrink: 0;
+}
+
+body.dark-mode #profile-image {
+  border-color: #444;
+  background-color: #333;
+}
+
+/* Username next to profile */
+.username {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1c1c1e;
+}
+
+body.dark-mode .username {
+  color: #e4e4e4;
+}
+
+/* Navbar spacing (gap utility) */
+.gap-4 > * + * {
+  margin-left: 1.5rem;
+}
+
+/* Theme toggle */
+#toggle-theme:hover {
+  background-color: #2e2e2e;
+  cursor: pointer;
+}
+
+body.dark-mode #toggle-theme {
+  background-color: #ffd93b;
+  color: #000;
+  border-color: #f4c430;
+}
+
+body.dark-mode #toggle-theme:hover {
+  background-color: #f7c400;
+}
+
+/* Logout Button */
+.button.is-danger.is-light {
+  font-weight: 600;
+  color: #d70015;
+  background-color: #fef2f2;
+}
+
+.button.is-danger.is-light:hover {
+  background-color: #fde7e7;
+}
+
+body.dark-mode .button.is-danger.is-light {
+  background-color: #5f1a1a;
+  color: #ffb3b3;
+}
+
+body.dark-mode .button.is-danger.is-light:hover {
+  background-color: #992222;
+}
+
+/* Settings Button */
+.button.is-primary.is-light {
+  background-color: #ecfdf5;
+  color: #065f46;
+  font-weight: 500;
+}
+
+.button.is-primary.is-light:hover {
+  background-color: #d1fae5;
+}
+
+body.dark-mode .button.is-primary.is-light {
+  background-color: #14532d;
+  color: #a7f3d0;
+}
+
+body.dark-mode .button.is-primary.is-light:hover {
+  background-color: #166534;
+}
+
+/* Input focus */
+input.input:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 0 0.125em rgba(0, 122, 255, 0.2);
+}
+
+/* Profile Preview Circle */
+.profile-preview {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-color: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Color Options Grid */
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Color Circles */
+.color-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.color-circle:hover {
+  transform: scale(1.1);
+}
+
+/* Selected Circle Outline */
+.color-circle.selected {
+  border: 3px solid #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
+/* Custom Color Picker */
+.custom-color-circle {
+  position: relative;
+  overflow: hidden;
+  border: 2px dashed #ccc;
+}
+
+.custom-color-circle input[type="color"] {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+/* NAVBAR STUFF: */
+.navbar {
+  position: relative;
+}
+
+body.dark-mode .navbar {
+  background-color: #2c2c2c;
+}
+
+.navbar-logo-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.navbar-logo-img {
+  height: 34px;
+  object-fit: contain;
+  max-width: 180px;
+  opacity: 0.95;
+}
+
+.navbar-start .button {
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  color: #1a1a1a;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.navbar-start .button:hover {
+  background-color: #eaeaea;
+}
+
+.sidebar-menu {
+  width: 220px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  transition: transform 0.2s ease;
+  position: absolute;
+  top: 64px;
+  left: 0;
+  height: calc(100vh - 64px);
+  z-index: 100;
+}
+
+body.dark-mode .sidebar-menu {
+  background-color: #2a2a2a;
+  border-right: 1px solid #444;
+}
+
+body.dark-mode .has-text-centered {
+  color: #ffffff;
+}
+
+body.dark-mode .box {
+  background-color: #353535;
+}
+body.dark-mode .label.label {
+  color: #ffffff;
+}
+.sidebar-menu.is-hidden {
+  display: none;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.menu-label {
+  font-size: 0.85rem;
+  color: #7a7a7a;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+body.dark-mode .menu-label {
+  color: #aaa;
+}
+
+.menu-list a {
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: block;
+  color: #1c1c1e;
+  transition: background-color 0.2s;
+}
+
+.menu-list a:hover {
+  background-color: #f0f0f0;
+}
+
+.menu-list a.is-active {
+  background-color: #e0f2fe;
+  color: #007acc;
+  font-weight: bold;
+}
+
+body.dark-mode .menu-list a {
+  color: #e4e4e4;
+}
+
+body.dark-mode .menu-list a:hover {
+  background-color: #3a3a3a;
+}
+
+body.dark-mode .menu-list a.is-active {
+  background-color: #005f99;
+  color: #fff;
+}
+
+.navbar-left-buttons {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.navbar-left-buttons .button:hover {
+  background-color: #f5f5f5;
+  border-color: #dbdbdb;
+}
+
+body.dark-mode .navbar-left-buttons .button:hover {
+  background-color: #444;
+  border-color: #555;
+}
+
+/* Fix layout alignment with sidebar */
+.layout-wrapper {
+  display: flex;
+  margin-left: 220px;
+  padding: 1.5rem;
+}
+
+.section {
+  width: 100%;
+}
+
+/* Ensure sidebar is always visible unless explicitly toggled */
+#sidebar {
+  display: block;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+  box-shadow: 1px 0 3px rgba(0,0,0,0.1);
+  z-index: 1;
+}
+
+body.dark-mode #sidebar {
+  background-color: #2a2a2a;
+  border-right: 1px solid #444;
+}
+
+.navbar .navbar-item img#profile-image {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  display: inline-block;
+  border-radius: 50%;
+  vertical-align: middle;
+}

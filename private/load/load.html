@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loading - ADMApp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="/css/load.css">
+  <link rel="icon" type="image/x-icon" href="../logos/ADMAppSimpleSquare.png" />
+</head>
+<body>
+  <!-- Intro Screen -->
+  <div id="introScreen" class="intro-screen">
+    <img src="../logos/ADMAppComplesSquare.png" alt="ADMApp Logo" class="intro-logo" />
+    <div class="intro-title">Welcome!</div>
+  </div>  
+
+  <div class="chat-container">
+    <!-- use for messages later -->
+  </div>
+
+  <script>
+ fetch("/api/session")
+  .then(res => res.json())
+  .then(data => {
+    const name = data.username?.replace(/\b\w/g, c => c.toUpperCase()) || "Guest";
+    document.querySelector('.intro-title').textContent = `Welcome, ${name}!`;
+  })
+  .finally(() => {
+    document.getElementById('introScreen')
+      .addEventListener('animationend', () => window.location.href = "/home/home.html");
+  });
+  </script>
+  
+</body>
+</html>

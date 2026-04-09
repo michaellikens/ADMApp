@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Login to ADMApp</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="../login-signup/login.css" />
+    <link rel="icon" type="image/x-icon" href="../logos/ADMAppSimpleSquare.png" />
+</head>
+<body>
+    <script>
+        if (localStorage.getItem("theme") === "dark") {
+          document.documentElement.classList.add("dark-mode");
+          document.body.classList.add("dark-mode");
+          document.addEventListener("DOMContentLoaded", () => {
+            const note = document.createElement("div");
+            note.className = "notification is-info has-text-centered";
+            note.style.position = "fixed";
+            note.style.bottom = "20px";
+            note.style.left = "50%";
+            note.style.transform = "translateX(-50%)";
+            note.style.zIndex = "1000";
+            note.style.maxWidth = "90%";
+            note.style.width = "auto";
+            note.innerHTML = `We've remembered your last theme preference and set the theme to <br><strong>Dark Mode</strong>`;
+            document.body.appendChild(note);
+            setTimeout(() => {
+              note.remove();
+            }, 3000);
+          });
+        }
+      </script>      
+    <form id="loginForm">
+        <div class="fieldset-container">
+            <h1 class="title is-3 has-text-weight-semibold">Sign in to ADMApp</h1>
+
+            <div id="bulmaError" class="notification is-danger is-light">
+                Incorrect username or password. Please try again.
+            </div>
+
+            <div class="field">
+                <label class="label" for="username">Username</label>
+                <div class="control">
+                    <input class="input" id="username" type="text" name="username" maxlength="32" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="password">Password</label>
+                <div class="control has-icons-right">
+                    <input class="input" id="password" type="password" name="password" required minlength="8" />
+                    <button type="button" class="button is-small is-light" id="togglePassword" style="position: absolute; right: 0.5rem; top: 0.35rem;">
+                        Show
+                    </button>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button type="submit" id="loginBtn" class="button is-link is-fullwidth">Log in</button>
+                </div>
+            </div>
+
+            <div class="forgot">
+                <a href="../login-signup/signup.html">Don't have an account yet?</a>
+            </div>
+        </div>
+    </form>
+
+    <script>
+      $("#loginForm").on("submit", function (e) {
+          e.preventDefault();
+
+          const username = $("#username").val();
+          const password = $("#password").val();
+          const $button = $("#loginBtn");
+
+          $button.removeClass("is-danger is-success").addClass("is-link is-loading").text("Logging in...");
+
+          $.ajax({
+              url: "/users/login",
+              method: "POST",
+              contentType: "application/json",
+              data: JSON.stringify({ name: username, password: password }),
+              xhrFields: { withCredentials: true },
+              success: function (response) {
+                  if (response === "Success!") {
+                      $button.removeClass("is-link is-loading").addClass("is-success").text("Success!");
+                      setTimeout(() => {
+                          window.location.href = "/load.html";
+                      }, 600);
+                  } else {
+                      showError();
+                  }
+              },
+              error: function () {
+                  showError();
+              }
+          });
+
+          function showError() {
+              $("#bulmaError").fadeIn();
+              $button.removeClass("is-link is-loading").addClass("is-danger").text("Try Again");
+          }
+      });
+
+      $("#username, #password").on("input", function () {
+          $("#bulmaError").fadeOut();
+          $("#loginBtn").removeClass("is-danger is-success").addClass("is-link").text("Log in");
+      });
+
+      $("#togglePassword").on("click", function () {
+          const $input = $("#password");
+          const isPassword = $input.attr("type") === "password";
+          $input.attr("type", isPassword ? "text" : "password");
+          $(this).text(isPassword ? "Hide" : "Show");
+      });
+    </script>
+</body>
+</html>

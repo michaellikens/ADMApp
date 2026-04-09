@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Friends - ADMApp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="/css/friends.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="icon" href="../logos/ADMAppSimpleSquare.png" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar-menu p-4">
+    <div class="menu">
+      <p class="menu-label">Navigation</p>
+      <ul class="menu-list">
+        <li><a href="/home/home.html"><i class="fas fa-house mr-2"></i>Home</a></li>
+        <li><a class="is-active"><i class="fas fa-user-group mr-2"></i>Friends</a></li>
+        <li><a href="/globalchat/globalchat.html"><i class="fas fa-globe mr-2"></i>Global Chat</a></li>
+        <li><a href="/conversations/conversations.html"><i class="fas fa-comments mr-2"></i>Conversations</a></li>
+        <li><a href="/groupchats/groupchats.html"><i class="fas fa-people-group mr-2"></i>Group Chats</a></li>
+        <li><a href="/settings/settings.html" onclick="sessionStorage.setItem('lastVisitedFrom', 'home')"><i class="fas fa-gear mr-2"></i>Settings</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Top Navbar -->
+  <nav class="navbar is-light px-5 py-3" role="navigation">
+    <div class="navbar-left-buttons">
+      <button class="button is-white" id="toggle-sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="navbar-logo-centered">
+      <a href="/">
+        <img src="/logos/ADMAppComplesHorizontal.png" alt="ADMApp Logo" class="navbar-logo-img">
+      </a>
+    </div>
+
+    <div class="navbar-end is-align-items-center">
+      <div class="navbar-item is-flex is-align-items-center gap-4">
+        <img id="profile-image" class="mr-2" src="" alt="Profile" />
+        <span class="username has-text-weight-semibold mr-4" id="username-display">Username</span>
+        <button id="toggle-theme" class="button is-dark is-light"><i id="theme-icon" class="fas fa-moon"></i></button>
+        <a href="/settings/settings.html" onclick="sessionStorage.setItem('lastVisitedFrom', 'home')" class="button is-primary is-light">Settings</a>
+        <a href="/logout" class="button is-danger is-light">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Layout Wrapper -->
+  <div class="layout-wrapper is-flex">
+    <!-- Main Content -->
+    <main class="column is-flex is-flex-direction-column is-align-items-center is-justify-content-start pt-5">
+      <section class="friend-request-section">
+        <form id="friend-request-form" class="field has-addons is-flex-grow-1 is-flex is-justify-content-center is-align-items-center">
+          <div class="control is-expanded">
+            <input class="input is-rounded" type="text" placeholder="Search by username..." name="friendUsername" required>
+          </div>
+          <div class="control">
+            <button type="submit" class="button is-link is-rounded">
+              <i class="fas fa-user-plus mr-1"></i> Add Friend
+            </button>
+          </div>
+        </form>
+        <div id="friend-request-status" class="notification is-hidden mt-3"></div>
+      </section>
+
+      <section class="pending-requests-section mb-5">
+        <h2 class="title is-4">Pending Friend Requests</h2>
+        <div id="pending-requests" class="box">
+          <p>Loading pending requests...</p>
+        </div>
+      </section>
+
+      <section class="friend-list-section">
+        <h2 class="title is-4">Your Friends</h2>
+        <div id="friend-list" class="box">
+          <p>Loading your friends...</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/friends/friends.js"></script>
+  <script>
+    // Sidebar toggle
+    document.getElementById("toggle-sidebar").addEventListener("click", () => {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("is-hidden");
+    });
+
+    // Theme logic
+    const toggleBtn = document.getElementById("toggle-theme");
+    const icon = document.getElementById("theme-icon");
+
+    function applyTheme(theme) {
+      document.body.classList.remove("light-mode", "dark-mode");
+      document.body.classList.add(`${theme}-mode`);
+      icon.className = theme === "dark" ? "fas fa-sun" : "fas fa-moon";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      applyTheme(savedTheme);
+    });
+
+    toggleBtn.addEventListener("click", () => {
+      const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", newTheme);
+      applyTheme(newTheme);
+    });
+
+    // Set user info
+    fetch("/api/session")
+      .then(res => res.json())
+      .then(data => {
+        const username = data.username || "Guest";
+        const pfpPath = `/Uploads/pfps/${username}.png`;
+        document.getElementById("username-display").textContent = username;
+        document.getElementById("profile-image").src = pfpPath;
+      })
+      .catch(() => {
+        document.getElementById("username-display").textContent = "Guest";
+        document.getElementById("profile-image").src = "/logos/defaultPfp.png";
+      });
+  </script>
+</body>
+</html>

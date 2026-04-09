@@ -1,0 +1,62 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #eff5ff, #b6d0ff);
+  }
+  
+  .intro-screen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #eff5ff, #b6d0ff);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeOut 0.5s ease forwards;
+    animation-delay: 2s;
+  }
+  .intro-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  color: #333;
+}
+
+  .intro-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    font-size: 3rem;
+    animation: popBounce 3.5s ease;
+  }
+  
+  .intro-title {
+    color: rgb(0, 0, 0);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+    animation: fadeSlide 3.5s ease;
+    animation-delay: 0.4s;
+    animation-fill-mode: both;
+  }
+  
+  /* Animations */
+  @keyframes popBounce {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  
+  @keyframes fadeSlide {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+  }
+  

@@ -1,0 +1,267 @@
+/* Base layout */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f7fb;
+  overflow: hidden;
+}
+
+/* Dark Mode Base */
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #e4e4e4;
+}
+
+/* SIDEBAR DARK MODE FIX */
+body.dark-mode #sidebar {
+  background-color: #2a2a2a;
+  border-right: 1px solid #444;
+}
+
+body.dark-mode .menu-label {
+  color: #aaa;
+}
+
+body.dark-mode .menu-list a {
+  color: #e4e4e4;
+}
+
+body.dark-mode .menu-list a:hover {
+  background-color: #3a3a3a;
+}
+
+body.dark-mode .menu-list a.is-active {
+  background-color: #005f99;
+  color: #fff;
+}
+
+/* NAVBAR DARK MODE */
+body.dark-mode .navbar {
+  background-color: #2c2c2c;
+}
+
+body.dark-mode .navbar-left-buttons .button:hover {
+  background-color: #444;
+  border-color: #555;
+}
+
+body.dark-mode #profile-image {
+  border-color: #444;
+  background-color: #333;
+}
+
+body.dark-mode .username {
+  color: #e4e4e4;
+}
+
+body.dark-mode .button.is-danger.is-light {
+  background-color: #5f1a1a;
+  color: #ffb3b3;
+}
+
+body.dark-mode .button.is-danger.is-light:hover {
+  background-color: #992222;
+}
+
+body.dark-mode .button.is-primary.is-light {
+  background-color: #14532d;
+  color: #a7f3d0;
+}
+
+body.dark-mode .button.is-primary.is-light:hover {
+  background-color: #166534;
+}
+
+body.dark-mode .subtitle {
+  color: #cccccc;
+}
+
+/* LIGHT MODE BUTTON DEFAULT */
+#toggle-theme {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+#toggle-theme:hover {
+  background-color: #21212176;
+}
+
+/* DARK MODE SUN THEME BUTTON OVERRIDE */
+body.dark-mode #toggle-theme {
+  background-color: #ffd93b;
+  color: #000;
+  border-color: #f4c430;
+}
+
+body.dark-mode #toggle-theme:hover {
+  background-color: #f7c400;
+}
+
+/* Layout wrapper */
+.layout-wrapper {
+  display: flex;
+  margin-left: 220px;
+  height: calc(100vh - 64px);
+}
+
+/* Sidebar menu */
+#sidebar {
+  width: 220px;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e5e5;
+  transition: transform 0.3s ease;
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+#sidebar.is-hidden {
+  transform: translateX(-100%);
+  position: absolute;
+  z-index: 999;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+}
+
+.menu-label {
+  font-size: 0.85rem;
+  color: #7a7a7a;
+  text-transform: uppercase;
+  margin: 0.5rem 0;
+}
+
+.menu-list a {
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: block;
+  color: #1c1c1e;
+  transition: background-color 0.2s;
+}
+
+.menu-list a:hover {
+  background-color: #f0f0f0;
+}
+
+.menu-list a.is-active {
+  background-color: #e0f2fe;
+  color: #007acc;
+  font-weight: bold;
+}
+
+/* Navbar */
+.navbar {
+  position: relative;
+}
+
+.navbar-logo-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.navbar-logo-img {
+  height: 34px;
+  max-width: 180px;
+  object-fit: contain;
+  opacity: 0.95;
+}
+
+.navbar-left-buttons {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.navbar-left-buttons .button:hover {
+  background-color: #f5f5f5;
+  border-color: #dbdbdb;
+}
+
+/* Profile Picture */
+#profile-image {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: inline-block !important;
+  aspect-ratio: 1 / 1 !important;
+  border: 2px solid #e2e2e2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  background-color: #f0f0f0;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.navbar-item #profile-image {
+  max-height: none !important;
+}
+
+/* Username */
+.username {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1c1c1e;
+}
+
+/* Spacing for navbar content */
+.gap-4 > * + * {
+  margin-left: 1.5rem;
+}
+
+/* Buttons */
+.button.is-danger.is-light {
+  font-weight: 600;
+  color: #d70015;
+  background-color: #fef2f2;
+}
+
+.button.is-danger.is-light:hover {
+  background-color: #fde7e7;
+}
+
+.button.is-primary.is-light {
+  background-color: #ecfdf5;
+  color: #065f46;
+  font-weight: 500;
+}
+
+.button.is-primary.is-light:hover {
+  background-color: #d1fae5;
+}
+
+/* Home Page Content */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.section {
+  padding-top: 4rem;
+}
+
+.buttons.is-centered a {
+  min-width: 200px;
+  margin: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.adm-logo {
+  height: 60px;
+  max-width: 100%;
+  object-fit: contain;
+}

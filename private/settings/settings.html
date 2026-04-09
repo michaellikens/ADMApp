@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings - ADMApp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="/css/settings.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="icon" href="../logos/ADMAppSimpleSquare.png" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script defer src="/settings/settings.js"></script>
+</head>
+<body>
+  <nav class="navbar is-light px-5 py-3" role="navigation">
+    <div class="navbar-left-buttons">
+      <button class="button is-white" id="toggle-sidebar"><i class="fas fa-bars"></i></button>
+      <a id="return-button" class="button is-white ml-2">← Back</a>
+    </div>
+
+    <div class="navbar-logo-centered">
+      <a href="/">
+        <img src="/logos/ADMAppComplesHorizontal.png" alt="ADMApp Logo" class="navbar-logo-img">
+      </a>
+    </div>
+
+    <div class="navbar-end is-align-items-center">
+      <div class="navbar-item is-flex is-align-items-center gap-4">
+        <img id="profile-image" class="mr-2" src="" alt="Profile" />
+        <span class="username has-text-weight-semibold mr-4" id="username-display">Username</span>
+        <button id="toggle-theme" class="button is-dark is-light"><i class="fas fa-moon"></i></button>
+        <a href="/settings/settings.html" class="button is-primary is-light">Settings</a>
+        <a href="/logout" class="button is-danger is-light">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout-wrapper is-flex">
+    <aside id="sidebar" class="sidebar-menu p-4">
+      <div class="menu">
+        <p class="menu-label">Navigation</p>
+        <ul class="menu-list">
+          <li><a href="/home/home.html"><i class="fas fa-house mr-2"></i>Home</a></li>
+          <li><a href="/friends/friends.html"><i class="fas fa-user-group mr-2"></i>Friends</a></li>
+          <li><a href="/globalchat/globalchat.html"><i class="fas fa-globe mr-2"></i>Global Chat</a></li>
+          <li><a href="/conversations/conversations.html"><i class="fas fa-comments mr-2"></i>Conversations</a></li>
+          <li><a href="/groupchats/groupchats.html"><i class="fas fa-people-group mr-2"></i>Group Chats</a></li>
+          <li><a class="is-active" href="/settings/settings.html"><i class="fas fa-gear mr-2"></i>Settings</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <section class="section" style="flex: 1;">
+      <div class="container">
+        <h1 class="title has-text-centered">Settings</h1>
+
+        <div id="bulmaError" class="notification is-danger is-light is-hidden has-text-centered mb-4"></div>
+
+        <div class="box">
+          <label class="label">Change Username</label>
+          <input class="input" type="text" id="new-username" placeholder="New username">
+          <button id="updateUsernameBtn" class="button is-link mt-2">Update Username</button>
+        </div>
+
+        <div class="box">
+          <label class="label">Change Password</label>
+          <input class="input" type="password" id="new-password" placeholder="New password" minlength="8">
+          <button id="updatePasswordBtn" class="button is-link mt-2">Update Password</button>
+        </div>
+
+        <div class="box">
+          <label class="label has-text-weight-semibold mb-4">Profile Picture Color</label>
+          <div class="has-text-centered mb-4">
+            <div id="profile-preview" class="profile-preview mx-auto">
+              <span id="preview-initials">U</span>
+            </div>
+          </div>
+          <div class="color-options is-flex is-justify-content-center is-flex-wrap-wrap mb-4">
+            <div class="color-circle" style="background-color: #ef4444" data-color="#ef4444"></div>
+            <div class="color-circle" style="background-color: #f97316" data-color="#f97316"></div>
+            <div class="color-circle" style="background-color: #facc15" data-color="#facc15"></div>
+            <div class="color-circle" style="background-color: #22c55e" data-color="#22c55e"></div>
+            <div class="color-circle" style="background-color: #38bdf8" data-color="#38bdf8"></div>
+            <div class="color-circle" style="background-color: #2563eb" data-color="#2563eb"></div>
+            <div class="color-circle" style="background-color: #7c3aed" data-color="#7c3aed"></div>
+            <div class="color-circle" style="background-color: #a855f7" data-color="#a855f7"></div>
+            <div class="color-circle" style="background-color: #f43f5e" data-color="#f43f5e"></div>
+            <div class="color-circle custom-color-circle" title="Custom Color">
+              <input type="color" id="custom-color-picker" />
+            </div>
+          </div>
+          <div class="has-text-centered">
+            <button id="updateProfileBtn" class="button is-link">Update Profile Picture</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
