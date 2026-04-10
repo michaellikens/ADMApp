@@ -87,7 +87,7 @@ Settings (Username, Password, Profile Picture)
 ![image5](https://i.imgur.com/o8XjNQe.png)
 
 ## 👥 Credits
-**Team Members:** Michael L., [Alek J.](https://github.com/Alek800008114), [Dean D.](https://github.com/TheOneAndOnlyAtlas)
+**Team Members:** [Michael L.](https://github.com/michaellikens), [Alek J.](https://github.com/Alek800008114), [Dean D.](https://github.com/TheOneAndOnlyAtlas)
 
 
 **Project Date:** May 2025
